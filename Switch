@@ -1,0 +1,26 @@
+! Basic Switch Configuration
+
+hostname Switch1
+enable secret your_enable_password
+
+! VLAN 10 Configuration for Subnet 1
+vlan 10
+ name Subnet1
+
+! Assign VLAN 10 to Ports connected to PCs (PC0 - PC9)
+interface range fa0/1 - 10
+ switchport mode access
+ switchport access vlan 10
+
+! Configure Trunk Link to Router (GigabitEthernet0/1)
+interface GigabitEthernet0/1
+ switchport mode trunk
+ no shutdown
+
+! Secure Console Access
+line con 0
+ password your_console_password
+ login
+
+! Save the Configuration
+write memory
