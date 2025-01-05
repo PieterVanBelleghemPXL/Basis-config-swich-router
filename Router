@@ -1,0 +1,39 @@
+! Basic Router Configuration
+
+hostname R1
+enable secret your_enable_password
+! Secure Console Access
+line con 0
+ password your_console_password
+ login
+ logging synchronous
+
+! Enable SSH for remote access
+ip domain-name example.com
+crypto key generate rsa usage-keys label ssh-key modulus 2048
+ip ssh version 2
+line vty 0 4
+ password your_vty_password
+ login local
+ transport input ssh
+
+! IPv4 Routing
+ip routing
+
+! IPv6 Routing
+ipv6 unicast-routing
+
+! Interface Configuration for Subnet 1 (VLAN 10)
+interface GigabitEthernet0/0/0
+ ip address 192.168.1.1 255.255.255.128
+ ipv6 address 2001:db8:1::1/64
+ no shutdown
+
+! Interface Configuration for Subnet 2 (VLAN 20)
+interface GigabitEthernet0/0/1
+ ip address 192.168.1.129 255.255.255.128
+ ipv6 address 2001:db8:2::1/64
+ no shutdown
+
+! Save the Configuration
+write memory
